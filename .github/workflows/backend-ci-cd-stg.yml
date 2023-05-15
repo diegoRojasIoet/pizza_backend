@@ -1,0 +1,17 @@
+name: CI/CD backend stg
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+-stg
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "./**"
+
+jobs:
+  ci-stg:
+    uses: ./.github/workflows/backend-ci.yml
+    with:
+      environment-name: stg
+    secrets: inherit
