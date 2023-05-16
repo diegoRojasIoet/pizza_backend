@@ -57,6 +57,7 @@ jobs:
         working-directory: ${{ env.API_DIR }}
 
       - name: Pytest coverage comment
+        permissions: write-all
         if: github.event_name == 'pull_request'
         uses: MishaKav/pytest-coverage-comment@main
         with:
