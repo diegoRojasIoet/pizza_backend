@@ -41,21 +41,18 @@ jobs:
 
       - name: Test with pytest
         run: |
-          source .venv/bin/activate
           python3 manage.py test
         working-directory: ${{ env.API_DIR }}
 
       - name: Install pytest-cov
         if: github.event_name == 'pull_request'
         run: |
-          source .venv/bin/activate
           pip install pytest-cov
         working-directory: ${{ env.API_DIR }}
 
       - name: Build coverage file
         if: github.event_name == 'pull_request'
         run: |
-          source .venv/bin/activate
           pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov-config=.coveragerc --cov=app app/tests/ | tee pytest-coverage.txt
         working-directory: ${{ env.API_DIR }}
 
