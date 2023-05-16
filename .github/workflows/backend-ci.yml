@@ -53,14 +53,14 @@ jobs:
       - name: Build coverage file
         if: github.event_name == 'pull_request'
         run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov-config=.coveragerc --cov=app app/tests/ | tee pytest-coverage.txt
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov-config=.coveragerc --cov=app app/test/ | tee pytest-coverage.txt
         working-directory: ${{ env.API_DIR }}
 
       - name: Pytest coverage comment
         if: github.event_name == 'pull_request'
         uses: MishaKav/pytest-coverage-comment@main
         with:
-          pytest-coverage-path: ./api/pytest-coverage.txt
+          pytest-coverage-path: ./pytest-coverage.txt
           junitxml-path: ${{ env.API_DIR }}/pytest.xml
         
       
