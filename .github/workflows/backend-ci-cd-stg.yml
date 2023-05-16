@@ -1,7 +1,6 @@
 name: CI/CD backend stg
 
 on:
-  push:
   pull_request:
     branches: [ main ]
     paths:
