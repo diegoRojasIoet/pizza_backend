@@ -1,10 +1,6 @@
-name: CI/CD backend stg
-
 on:
   pull_request:
-    branches: [ main ]
-    paths:
-      - "./**"
+    types: [opened, reopened]
 
 jobs:
   ci-stg:
