@@ -1,7 +1,5 @@
 import pytest
-from app.controllers import (IngredientController, OrderController,
-                             SizeController)
-from app.controllers.base import BaseController
+from app.controllers import OrderController
 from app.test.utils.functions import get_random_choice, shuffle_list
 
 
@@ -15,23 +13,7 @@ def __order(ingredients: list, size: dict, client_data: dict):
     }
 
 
-def __create_items(items: list, controller: BaseController):
-    created_items = []
-    for ingredient in items:
-        created_item, _ = controller.create(ingredient)
-        created_items.append(created_item)
-    return created_items
-
-
-def __create_sizes_and_ingredients(ingredients: list, sizes: list):
-    created_ingredients = __create_items(ingredients, IngredientController)
-    created_sizes = __create_items(sizes, SizeController)
-    return created_sizes if len(created_sizes) > 1 else created_sizes.pop(), created_ingredients
-
-
-def test_create(app, ingredients, size, client_data):
-    created_size, created_ingredients = __create_sizes_and_ingredients(ingredients, [size])
-    order = __order(created_ingredients, created_size, client_data)
+def test_create(app, order):
     created_order, error = OrderController.create(order)
     size_id = order.pop('size_id', None)
     ingredient_ids = order.pop('ingredients', [])
@@ -46,16 +28,15 @@ def test_create(app, ingredients, size, client_data):
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
 
-def test_calculate_order_price(app, ingredients, size, client_data):
-    created_size, created_ingredients = __create_sizes_and_ingredients(ingredients, [size])
+def test_calculate_order_price(app, create_size, create_ingredients, client_data):
+    created_size = create_size.json
+    created_ingredients = create_ingredients
     order = __order(created_ingredients, created_size, client_data)
     created_order, _ = OrderController.create(order)
     pytest.assume(created_order['total_price'] == round(created_size['price'] + sum(ingredient['price'] for ingredient in created_ingredients), 2))
 
 
-def test_get_by_id(app, ingredients, size, client_data):
-    created_size, created_ingredients = __create_sizes_and_ingredients(ingredients, [size])
-    order = __order(created_ingredients, created_size, client_data)
+def test_get_by_id(app, order):
     created_order, _ = OrderController.create(order)
     order_from_db, error = OrderController.get_by_id(created_order['_id'])
     size_id = order.pop('size_id', None)
@@ -69,8 +50,9 @@ def test_get_by_id(app, ingredients, size, client_data):
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
 
-def test_get_all(app, ingredients, sizes, client_data):
-    created_sizes, created_ingredients = __create_sizes_and_ingredients(ingredients, sizes)
+def test_get_all(app, create_sizes, create_ingredients, client_data):
+    created_sizes = create_sizes
+    created_ingredients = create_ingredients
     created_orders = []
     for _ in range(5):
         order = __order(shuffle_list(created_ingredients)[:3], get_random_choice(created_sizes), client_data)

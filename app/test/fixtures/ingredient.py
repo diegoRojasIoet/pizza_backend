@@ -1,6 +1,8 @@
 import pytest
 
-from ..utils.functions import get_random_price, get_random_string
+from app.controllers.ingredient import IngredientController
+
+from ..utils.functions import create_items, get_random_price, get_random_string
 
 
 def ingredient_mock() -> dict:
@@ -26,15 +28,12 @@ def ingredients():
 
 
 @pytest.fixture
-def create_ingredient(client, ingredient_uri) -> dict:
-    response = client.post(ingredient_uri, json=ingredient_mock())
+def create_ingredient(client, order, ingredient_uri) -> dict:
+    response = client.post(ingredient_uri, json=order)
     return response
 
 
 @pytest.fixture
-def create_ingredients(client, ingredient_uri) -> list:
-    ingredients = []
-    for _ in range(10):
-        new_ingredient = client.post(ingredient_uri, json=ingredient_mock())
-        ingredients.append(new_ingredient.json)
-    return ingredients
+def create_ingredients(ingredients: list):
+    created_ingredients = create_items(ingredients, IngredientController)
+    return created_ingredients

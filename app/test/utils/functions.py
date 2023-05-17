@@ -2,6 +2,16 @@ import random
 import string
 from typing import Any, Union
 
+from app.controllers.base import BaseController
+
+
+def create_items(items: list, controller: BaseController):
+    created_items = []
+    for ingredient in items:
+        created_item, _ = controller.create(ingredient)
+        created_items.append(created_item)
+    return created_items
+
 
 def get_random_string() -> str:
     letters = list(string.ascii_lowercase)
