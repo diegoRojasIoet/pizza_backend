@@ -32,6 +32,12 @@ def create_size(client, size_uri) -> dict:
 
 
 @pytest.fixture
+def get_sizes(client, size_uri) -> list:
+    response = client.get(size_uri)
+    return response
+
+
+@pytest.fixture
 def create_sizes(client, size_uri) -> list:
     sizes = []
     for _ in range(10):
