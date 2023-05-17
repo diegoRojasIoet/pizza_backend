@@ -27,7 +27,7 @@ def test_update_size_service(client, create_size, size_uri):
         pytest.assume(updated_ingredient[param] == value)
 
 
-def test_get_order_by_id_service(client, create_size, size_uri):
+def test_get__by_id_service(client, create_size, size_uri):
     current_size = create_size.json
     response = client.get(f'{size_uri}id/{current_size["_id"]}')
     pytest.assume(response.status.startswith('200'))

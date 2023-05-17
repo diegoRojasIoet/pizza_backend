@@ -1,5 +1,8 @@
 import pytest
 
+from app.controllers.base import BaseController
+from app.controllers.ingredient import IngredientController
+
 from ..utils.functions import (shuffle_list, get_random_sequence,
                                get_random_string)
 
@@ -26,9 +29,9 @@ def client_data():
 @pytest.fixture
 def order(create_ingredients, create_size, client_data) -> dict:
     ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
-    size_id = create_size.get('_id')
+    size_id = create_size.json.get('_id')
     return {
-        **client_data_mock(),
+        **client_data,
         'ingredients': ingredients,
         'size_id': size_id
     }
