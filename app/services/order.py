@@ -1,5 +1,5 @@
 from app.common.http_methods import GET, POST
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 
 from app.services.base import handler_create, handler_get_all, handler_get_by_id
 
@@ -21,4 +21,3 @@ def get_order_by_id(_id: int):
 @order.route('/', methods=GET)
 def get_orders():
     return handler_get_all(OrderController)
-
