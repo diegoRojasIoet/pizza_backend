@@ -13,7 +13,7 @@ from app.repositories.models import Ingredient, Order, OrderDetail, Size
 manager = FlaskGroup(flask_app)
 
 migrate = Migrate()
-migrate.init_app(flask_app, db)
+migrate.init_app(flask_app, db, render_as_batch=True)
 
 
 @manager.command('test', with_appcontext=False)
