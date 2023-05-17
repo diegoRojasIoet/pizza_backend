@@ -4,9 +4,10 @@ from app.test.utils.functions import get_random_string, get_random_price
 
 
 def test_get_size_service(create_sizes, get_sizes):
-    created_sizes = get_sizes.json
     pytest.assume(get_sizes.status.startswith('200'))
-    pytest.assume(len(created_sizes) == 10)
+    returned_sizes = {size['_id']: size for size in get_sizes.json}
+    for size in create_sizes:
+        pytest.assume(size['_id'] in returned_sizes)
 
 
 def test_create_size_service(create_size):

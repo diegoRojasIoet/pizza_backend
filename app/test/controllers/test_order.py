@@ -1,7 +1,5 @@
 import pytest
-from app.controllers import (IngredientController, OrderController,
-                             SizeController)
-from app.controllers.base import BaseController
+from app.controllers import OrderController
 from app.test.utils.functions import get_random_choice, shuffle_list
 
 
@@ -52,7 +50,7 @@ def test_get_by_id(app, order):
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
 
-def test_get_all(app, create_sizes, create_ingredients, sizes, client_data):
+def test_get_all(app, create_sizes, create_ingredients, client_data):
     created_sizes = create_sizes
     created_ingredients = create_ingredients
     created_orders = []
