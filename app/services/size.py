@@ -13,6 +13,7 @@ def get_sizes():
     status_code = 200 if not error else 400
     return jsonify(response), status_code
 
+
 @size.route('/', methods=POST)
 def create_size():
     size, error = SizeController.create(request.json)

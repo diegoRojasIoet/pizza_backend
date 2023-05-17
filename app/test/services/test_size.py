@@ -3,11 +3,11 @@ import pytest
 from app.test.utils.functions import get_random_string, get_random_price
 
 
-
-def test_get_size_service(create_sizes, get_sizes ):
+def test_get_size_service(create_sizes, get_sizes):
     created_sizes = get_sizes.json
     pytest.assume(get_sizes.status.startswith('200'))
     pytest.assume(len(created_sizes) == 10)
+
 
 def test_create_size_service(create_size):
     size = create_size.json
