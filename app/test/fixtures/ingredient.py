@@ -28,8 +28,8 @@ def ingredients():
 
 
 @pytest.fixture
-def create_ingredient(client, order, ingredient_uri) -> dict:
-    response = client.post(ingredient_uri, json=order)
+def create_ingredient(client, ingredient, ingredient_uri) -> dict:
+    response = client.post(ingredient_uri, json=ingredient)
     return response
 
 
