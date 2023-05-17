@@ -5,7 +5,7 @@ from typing import Any, Union
 from app.controllers.base import BaseController
 
 
-def create_items(items: list, controller: BaseController):
+def create_items(items: list, controller: BaseController) -> list:
     created_items = []
     for ingredient in items:
         created_item, _ = controller.create(ingredient)

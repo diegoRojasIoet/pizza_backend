@@ -6,9 +6,9 @@ from app.test.utils.functions import get_random_string, get_random_price
 def test_create_ingredient_service(create_ingredient):
     ingredient = create_ingredient.json
     pytest.assume(create_ingredient.status.startswith('200'))
-    pytest.assume(ingredient['_id'])
-    pytest.assume(ingredient['name'])
-    pytest.assume(ingredient['price'])
+    assert(ingredient['_id'])
+    assert(ingredient['name'])
+    assert(ingredient['price'])
 
 
 def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
@@ -18,7 +18,7 @@ def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
     pytest.assume(response.status.startswith('200'))
     updated_ingredient = response.json
     for param, value in update_data.items():
-        pytest.assume(updated_ingredient[param] == value)
+        assert(updated_ingredient[param] == value)
 
 
 def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri):
@@ -27,7 +27,7 @@ def test_get_ingredient_by_id_service(client, create_ingredient, ingredient_uri)
     pytest.assume(response.status.startswith('200'))
     returned_ingredient = response.json
     for param, value in current_ingredient.items():
-        pytest.assume(returned_ingredient[param] == value)
+        assert(returned_ingredient[param] == value)
 
 
 def test_get_ingredients_service(client, create_ingredients, ingredient_uri):
@@ -35,4 +35,4 @@ def test_get_ingredients_service(client, create_ingredients, ingredient_uri):
     pytest.assume(response.status.startswith('200'))
     returned_ingredients = {ingredient['_id']: ingredient for ingredient in response.json}
     for ingredient in create_ingredients:
-        pytest.assume(ingredient['_id'] in returned_ingredients)
+        assert(ingredient['_id'] in returned_ingredients)
