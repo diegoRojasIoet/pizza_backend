@@ -1,4 +1,5 @@
 import pytest
+from app.common.constants import NUMBERITEMS
 
 from app.controllers.ingredient import IngredientController
 
@@ -24,7 +25,7 @@ def ingredient():
 
 @pytest.fixture
 def ingredients():
-    return [ingredient_mock() for _ in range(5)]
+    return [ingredient_mock() for _ in range(NUMBERITEMS)]
 
 
 @pytest.fixture
