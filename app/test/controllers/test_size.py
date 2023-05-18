@@ -6,9 +6,9 @@ def test_create(app, size: dict):
     created_size, error = SizeController.create(size)
     pytest.assume(error is None)
     for param, value in size.items():
-        pytest.assume(param in created_size)
-        pytest.assume(value == created_size[param])
-        pytest.assume(created_size['_id'])
+        assert(param in created_size)
+        assert(value == created_size[param])
+    assert(created_size['_id'])
 
 
 def test_update(app, size: dict):

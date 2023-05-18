@@ -6,9 +6,9 @@ def test_create(app, ingredient: dict):
     created_ingredient, error = IngredientController.create(ingredient)
     pytest.assume(error is None)
     for param, value in ingredient.items():
-        pytest.assume(param in created_ingredient)
-        pytest.assume(value == created_ingredient[param])
-        pytest.assume(created_ingredient['_id'])
+        assert(param in created_ingredient)
+        assert(value == created_ingredient[param])
+    assert(created_ingredient['_id'])
 
 
 def test_update(app, ingredient: dict):
