@@ -33,7 +33,6 @@ def test_create(app, order):
     assert(size_id == created_order['size']['_id'])
 
 
-
 def test_calculate_order_price(app, create_size, create_ingredients, create_beverages, client_data):
     created_size = create_size.json
     order = __order(create_ingredients, create_beverages, created_size, client_data)

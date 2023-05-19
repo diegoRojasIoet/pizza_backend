@@ -1,7 +1,7 @@
-from app.common.http_methods import GET, POST, PUT
+from app.common.http_methods import GET, POST
 from flask import Blueprint, request
 
-from app.services.base import handler_create, handler_get_all, handler_get_by_id, handler_update
+from app.services.base import handler_create, handler_get_all, handler_get_by_id
 
 from ..controllers import BeverageController
 

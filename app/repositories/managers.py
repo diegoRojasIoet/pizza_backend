@@ -84,7 +84,6 @@ class OrderManager(BaseManager):
                                 beverage_price=beverages[i].price,
                             )
                             for i in range(len(beverages))))
-       
         cls.session.commit()
         return cls.serializer().dump(new_order)
 

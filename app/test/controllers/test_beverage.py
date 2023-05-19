@@ -1,8 +1,6 @@
 import pytest
 from app.controllers.beverage import BeverageController
 
-from app.test.utils.functions import get_random_string, get_random_price
-
 
 def test_create_beverage(app, beverage: dict):
     created_beverage, error = BeverageController.create(beverage)
