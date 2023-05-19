@@ -25,8 +25,8 @@ def test_create(app, order):
         assert(param in created_order)
         assert(value == created_order[param])
 
-    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'])
-    beverages_in_order = set(item['beverage']['_id'] for item in created_order['detail'])
+    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'] if item['ingredient'] is not None)
+    beverages_in_order = set(item['beverage']['_id'] for item in created_order['detail'] if item['beverage'] is not None)
     assert(not ingredients_in_detail.difference(ingredient_ids))
     assert(not beverages_in_order.difference(beverages_ids))
     assert(created_order['_id'])
@@ -53,8 +53,8 @@ def test_get_by_id(app, order):
     for param, value in created_order.items():
         assert(order_from_db[param] == value)
 
-    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'])
-    beverages_in_detail = set(item['beverage']['_id'] for item in created_order['detail'])
+    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'] if item['ingredient'] is not None)
+    beverages_in_detail = set(item['beverage']['_id'] for item in created_order['detail'] if item['beverage'] is not None)
     assert(not ingredients_in_detail.difference(ingredient_ids))
     assert(not beverages_in_detail.difference(beverages_ids))
     assert(size_id == created_order['size']['_id'])

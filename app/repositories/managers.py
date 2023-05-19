@@ -76,10 +76,14 @@ class OrderManager(BaseManager):
                                 order_id=new_order._id,
                                 ingredient_id=ingredients[i]._id,
                                 ingredient_price=ingredients[i].price,
+                            )
+                            for i in range(len(ingredients))))
+        cls.session.add_all((OrderDetail(
+                                order_id=new_order._id,
                                 beverage_id=beverages[i]._id,
                                 beverage_price=beverages[i].price,
                             )
-                            for i in range(len(ingredients))))
+                            for i in range(len(beverages))))
        
         cls.session.commit()
         return cls.serializer().dump(new_order)
