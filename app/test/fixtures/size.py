@@ -1,5 +1,7 @@
 import pytest
 
+from app.common.constants import NUMBERORDERS
+
 from ..utils.functions import get_random_price, get_random_string
 
 
@@ -26,8 +28,8 @@ def sizes():
 
 
 @pytest.fixture
-def create_size(client, size_uri) -> dict:
-    response = client.post(size_uri, json=size_mock())
+def create_size(client, size, size_uri) -> dict:
+    response = client.post(size_uri, json=size)
     return response
 
 
@@ -40,7 +42,7 @@ def get_sizes(client, size_uri) -> list:
 @pytest.fixture
 def create_sizes(client, size_uri) -> list:
     sizes = []
-    for _ in range(10):
+    for _ in range(NUMBERORDERS):
         new_size = client.post(size_uri, json=size_mock())
         sizes.append(new_size.json)
     return sizes

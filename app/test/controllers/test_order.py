@@ -3,12 +3,14 @@ from app.controllers import OrderController
 from app.test.utils.functions import get_random_choice, shuffle_list
 
 
-def __order(ingredients: list, size: dict, client_data: dict):
+def __order(ingredients: list, beverages: list, size: dict, client_data: dict):
     ingredients = [ingredient.get('_id') for ingredient in ingredients]
+    beverages = [beverage.get('_id') for beverage in beverages]
     size_id = size.get('_id')
     return {
         **client_data,
         'ingredients': ingredients,
+        'beverages': beverages,
         'size_id': size_id
     }
 
@@ -17,23 +19,27 @@ def test_create(app, order):
     created_order, error = OrderController.create(order)
     size_id = order.pop('size_id', None)
     ingredient_ids = order.pop('ingredients', [])
+    beverages_ids = order.pop('beverages', [])
     pytest.assume(error is None)
     for param, value in order.items():
-        pytest.assume(param in created_order)
-        pytest.assume(value == created_order[param])
-        pytest.assume(created_order['_id'])
-        pytest.assume(size_id == created_order['size']['_id'])
+        assert(param in created_order)
+        assert(value == created_order[param])
 
-        ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'])
-        pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
+    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'] if item['ingredient'] is not None)
+    beverages_in_order = set(item['beverage']['_id'] for item in created_order['detail'] if item['beverage'] is not None)
+    assert(not ingredients_in_detail.difference(ingredient_ids))
+    assert(not beverages_in_order.difference(beverages_ids))
+    assert(created_order['_id'])
+    assert(size_id == created_order['size']['_id'])
 
 
-def test_calculate_order_price(app, create_size, create_ingredients, client_data):
+def test_calculate_order_price(app, create_size, create_ingredients, create_beverages, client_data):
     created_size = create_size.json
-    created_ingredients = create_ingredients
-    order = __order(created_ingredients, created_size, client_data)
+    order = __order(create_ingredients, create_beverages, created_size, client_data)
     created_order, _ = OrderController.create(order)
-    pytest.assume(created_order['total_price'] == round(created_size['price'] + sum(ingredient['price'] for ingredient in created_ingredients), 2))
+    assert(created_order['total_price'] == round(
+            created_size['price'] + sum(ingredient['price'] for ingredient in create_ingredients) +
+            sum(beverage['price'] for beverage in create_beverages), 2))
 
 
 def test_get_by_id(app, order):
@@ -41,21 +47,22 @@ def test_get_by_id(app, order):
     order_from_db, error = OrderController.get_by_id(created_order['_id'])
     size_id = order.pop('size_id', None)
     ingredient_ids = order.pop('ingredients', [])
+    beverages_ids = order.pop('beverages', [])
     pytest.assume(error is None)
     for param, value in created_order.items():
-        pytest.assume(order_from_db[param] == value)
-        pytest.assume(size_id == created_order['size']['_id'])
+        assert(order_from_db[param] == value)
 
-        ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'])
-        pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
+    ingredients_in_detail = set(item['ingredient']['_id'] for item in created_order['detail'] if item['ingredient'] is not None)
+    beverages_in_detail = set(item['beverage']['_id'] for item in created_order['detail'] if item['beverage'] is not None)
+    assert(not ingredients_in_detail.difference(ingredient_ids))
+    assert(not beverages_in_detail.difference(beverages_ids))
+    assert(size_id == created_order['size']['_id'])
 
 
-def test_get_all(app, create_sizes, create_ingredients, client_data):
-    created_sizes = create_sizes
-    created_ingredients = create_ingredients
+def test_get_all(app, create_sizes, create_ingredients, create_beverages, client_data):
     created_orders = []
     for _ in range(5):
-        order = __order(shuffle_list(created_ingredients)[:3], get_random_choice(created_sizes), client_data)
+        order = __order(shuffle_list(create_ingredients)[:3], create_beverages, get_random_choice(create_sizes), client_data)
         created_order, _ = OrderController.create(order)
         created_orders.append(created_order)
 
@@ -66,4 +73,4 @@ def test_get_all(app, create_sizes, create_ingredients, client_data):
         current_id = created_order['_id']
         assert current_id in searchable_orders
         for param, value in created_order.items():
-            pytest.assume(searchable_orders[current_id][param] == value)
+            assert(searchable_orders[current_id][param] == value)
