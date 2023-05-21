@@ -1,12 +1,11 @@
-import pytest
-
 from app.controllers.report import ReportController
 import pandas as pd
 
 controller = ReportController()
 
+
 def test_get_report(app, create_orders):
-    created_report = ReportController.get_report()
+    created_report, error = ReportController.get_all()
     expected_keys = [
         "most_requested_ingredient",
         "month_with_more_revenue",
@@ -16,9 +15,8 @@ def test_get_report(app, create_orders):
     assert(key in expected_keys for key in created_report)
 
 
-
 def test_fill_list_data(app, list_to_fill):
-    controller._fill_list_data({'name':'item2'}, list_to_fill)
+    controller._fill_list_data({'name': 'item2'}, list_to_fill)
     assert(len(list_to_fill) == 2)
 
 
@@ -51,11 +49,11 @@ def test_get_more_asked_ingredient(app, data_frame_orders):
 def test_get_more_revenue_month(app, data_frame_orders):
     month = controller._get_most_revenue_month(data_frame_orders)
     assert(type(month) == int)
-    assert(month == 3 )
+    assert(month == 3)
 
 
 def test_get_top_3_clients(app, data_frame_orders):
     top_3_clients = controller._get_top_3_clients(data_frame_orders)
     assert(type(top_3_clients) == list)
     assert(len(top_3_clients) == 3)
-    assert(type(name)== str for name in top_3_clients)
+    assert(type(name) == str for name in top_3_clients)

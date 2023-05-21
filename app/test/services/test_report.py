@@ -8,4 +8,3 @@ def test_get_repor_service(client, create_orders, report_uri):
     assert(returned_report['most_requested_ingredient'])
     assert(returned_report['month_with_more_revenue'])
     assert(returned_report['top_3_clients'])
-    
