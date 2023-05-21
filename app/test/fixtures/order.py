@@ -51,6 +51,7 @@ def create_orders(client, client_data,  order_uri, create_ingredients, create_si
     sizes = [size.get('_id') for size in create_sizes]
     orders = []
     for _ in range(NUMBERORDERS):
+        client_data['client_name'] = get_random_string()
         new_order = client.post(order_uri, json={
             **client_data,
             'ingredients': shuffle_list(ingredients)[:5],
