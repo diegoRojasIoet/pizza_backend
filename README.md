@@ -112,3 +112,7 @@ ext install ritwickdey.LiveServer
 ```bash
 python3 manage.py test
 ```
+
+```bash
+python3 manage.py seeder
+```
