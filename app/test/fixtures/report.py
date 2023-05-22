@@ -233,7 +233,21 @@ def orders_data_mock() -> dict:
                 {'beverage': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2}, 'ingredient_price': None, 'beverage_price': 16.04, 'ingredient': None}
             ],
             'size': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2},
-            'total_price': 162.62}
+            'total_price': 162.62},
+        {'_id': 3,
+            'client_address': 'vpqkwenjrz',
+            'client_dni': '2877374003',
+            'client_name': 'nhweotpqkz',
+            'client_phone': '5447470741',
+            'date': '2023-05-20T17:59:42.109109',
+            'detail': [
+                {'beverage': None, 'ingredient_price': 16.29, 'beverage_price': None, 'ingredient': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2}},
+                {'beverage': None, 'ingredient_price': 15.68, 'beverage_price': None, 'ingredient': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2}},
+                {'beverage': None, 'ingredient_price': 17.86, 'beverage_price': None, 'ingredient': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2}},
+                {'beverage': None, 'ingredient_price': 17.38, 'beverage_price': None, 'ingredient': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2}}
+            ],
+            'size': {'name': 'bltivmhfyx', 'price': 15.6, '_id': 2},
+            'total_price': 162.62},
         ]
 
 

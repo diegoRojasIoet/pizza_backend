@@ -28,7 +28,7 @@ class ReportController():
             cls._fill_list_data(detail_data['beverage'], beverages)
             cls._fill_list_data(detail_data['ingredient'], ingredients)
 
-        most_beverage = cls._count_items(beverages)
+        most_beverage = cls._count_items(beverages) if len(beverages)>0 else ''
 
         return ingredients, most_beverage
 
